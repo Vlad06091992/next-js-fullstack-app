@@ -3,11 +3,8 @@
 //
 // interface C {
 //     className?: string
-//     title?: string
-//     items: Item[]
-//     defaultItems: Item[]
 // }
 //
-// export const C: FC<C> = ({className}: CProps) => {
+// export const C: FC<CProps> = ({className}) => {
 //     return (<div className={cn('', className)}></div>);
 // }
