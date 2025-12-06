@@ -12,7 +12,7 @@ interface ProductsGroupListProps {
     title: string
     items: any[]
     listClassName?: string
-    categoryId: number
+    categoryId: string
 }
 
 export const ProductsGroupList: FC<ProductsGroupListProps> = ({className,listClassName,items,categoryId,title}) => {
