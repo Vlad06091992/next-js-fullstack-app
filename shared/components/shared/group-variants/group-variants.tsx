@@ -1,21 +1,20 @@
 "use client";
 
-import {FC} from "react";
 import {cn} from "@/shared/lib/utils";
 
-export type Variant = {
+export type Variant<T> = {
     name: string;
-    value: string;
+    value: T;
     disabled?:boolean;
 };
 
-interface GroupVariantsProps {
-    items: readonly Variant[];
-    onClick?: (value: Variant['value']) => void;
-    value?: Variant['value'];
+interface GroupVariantsProps<T> {
+    items: readonly Variant<T>[];
+    onClick?: (value: T) => void;
+    value?: T;
     className?: string;
 }
-export const GroupVariants: FC<GroupVariantsProps> = ({ items, onClick, className, value }) => {
+export const GroupVariants =<T extends string | number> ({ items, onClick, className, value }:GroupVariantsProps<T>) => {
     return (
         <div className={cn(className, 'flex justify-between bg-[#F3F3F7] rounded-3xl p-1 select-none')}>
             {items.map((item) => (

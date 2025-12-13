@@ -8,7 +8,7 @@ interface ProductImageProps {
     size: 20 | 30 | 40;
 }
 
-export const ProductImage: FC<ProductImageProps> = ({className,imageUrl,name,size}) => {
+export const PizzaImage: FC<ProductImageProps> = ({className,imageUrl,name,size}) => {
     return (
         <div className={cn('flex items-center justify-center flex-1 relative w-full', className)}>
         <img
