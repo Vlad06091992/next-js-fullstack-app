@@ -5,7 +5,7 @@ import {cn} from "@/shared/lib/utils";
 import {ChoosePizzaForm, ChooseProductForm, Title} from "@/shared/components";
 import {Dialog, DialogContent} from "@/shared/components/ui/dialog";
 import {useRouter} from "next/navigation";
-import {ProductWithRelations} from "@/@types/prisma";
+import {ProductWithRelations} from "@/prisma/types";
 
 interface ChooseProductModalProps {
     product: ProductWithRelations

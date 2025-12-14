@@ -3,7 +3,7 @@
 import {Input, Title} from "@/shared/components";
 import {RangeSlider} from "@/shared/components/shared/range-slider/range-slider";
 import {CheckboxFiltersGroup} from "@/shared/components/shared/checkbox-filters-group/checkbox-filters-group";
-import {useFiltersCommon} from "@/shared/hooks/hooks";
+import {useFiltersCommon} from "@/shared/hooks";
 import {useEffect} from "react";
 import qs from "qs";
 import {useRouter} from "next/navigation";
