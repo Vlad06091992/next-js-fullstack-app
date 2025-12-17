@@ -48,9 +48,6 @@ export const Filters = ({className}: FiltersProps) => {
         }
 
         const query = qs.stringify(data, {arrayFormat: "comma", skipNulls:true});
-        debugger
-        console.debug(query);
-
         router.push(`?${query}`, {
             scroll: false,
         });

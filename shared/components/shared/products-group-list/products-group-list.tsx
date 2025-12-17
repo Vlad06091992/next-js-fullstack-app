@@ -24,8 +24,6 @@ export const ProductsGroupList: FC<ProductsGroupListProps> = ({className,listCla
 
     useEffect(() => {
         if (intersection?.isIntersecting) {
-            // console.debug(title, categoryId)
-            debugger
             setActiveCategoryId(categoryId);
         }
     }, [categoryId, intersection?.isIntersecting, title]);
