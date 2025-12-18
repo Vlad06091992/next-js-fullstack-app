@@ -7,17 +7,18 @@ const randomDecimalNumber = (min: number, max: number) => {
     return Math.floor(Math.random() * (max - min) * 10 + min * 10) / 10;
 };
 
-const generateProductItem = ({
-                                 productId,
-                                 pizzaType,
-                                 id,
-                                 size,
-                             }: {
-    productId: string;
-    id: string;
-    pizzaType?: 1 | 2;
-    size?: 20 | 30 | 40;
-}) => {
+const generateProductItem = (
+    {
+        productId,
+        pizzaType,
+        id,
+        size,
+    }: {
+        productId: string;
+        id: string;
+        pizzaType?: 1 | 2;
+        size?: 20 | 30 | 40;
+    }) => {
     return {
         id,
         productId,
