@@ -1,6 +1,8 @@
 import {create} from "zustand";
 import {Api} from "@/shared/services/api-client";
 import {getCartDetails} from "@/shared/lib";
+import {Ingredient} from "@prisma/client";
+import {PizzaSize, PizzaType} from "@/shared/constants/pizza";
 
 export type CartStateItem = {
     id: string;
@@ -8,11 +10,11 @@ export type CartStateItem = {
     name: string;
     imageUrl: string;
     price: number;
-    pizzaSize?: number | null;
-    ingredients: Array<{ name: string; price: number }>;
+    pizzaSize?: PizzaSize;
+    ingredients: Array<Ingredient>;
 
     // disabled?: boolean;
-    // pizzaType?: number | null;
+    pizzaType?: PizzaType;
 };
 
 
@@ -45,7 +47,7 @@ export const useCartStore = create<CartState>((set, get) => ({
     fetchCartItems: async () => {
         try {
             set({ loading: true, error: false });
-            const data = await Api.cart.getCart();
+            const data = await Api.cart.getCart(); //CartDTO
             set(getCartDetails(data));
         } catch (error) {
             console.error(error);

@@ -1,6 +1,6 @@
 "use client"
 
-import {FC, ReactNode} from "react";
+import {FC, ReactNode, useEffect} from "react";
 import {Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle, SheetTrigger,} from '@/shared/components/ui/sheet';
 import {Button} from "@/shared/components";
 import Link from "next/link";
@@ -8,6 +8,7 @@ import {ArrowRight} from "lucide-react";
 import {CartDrawerItem} from "@/shared/components/shared/cart-drawer-item/cart-drawer-item";
 import {getCartItemDetails} from "@/shared/lib";
 import {Ingredient} from "@prisma/client";
+import {useCartStore} from "@/shared/store";
 
 
 interface CartDrawerProps {
@@ -17,7 +18,12 @@ interface CartDrawerProps {
 
 export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
 
-    const totalAmount = 500
+    const {fetchCartItems, totalAmount, items} = useCartStore()
+
+    useEffect(() => {
+        fetchCartItems()
+    }, [])
+
 
     return (<Sheet>
         <SheetTrigger asChild>
@@ -26,132 +32,24 @@ export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
         <SheetContent className={'flex flex-col justify-between pb-0 bg-[#F4F1EE]'}>
             <SheetHeader>
                 <SheetTitle>
-                    В корзине <span className='font-bold'>3 товара</span>
+                    В корзине <span className='font-bold'>{items.length} товара</span>
                 </SheetTitle>
             </SheetHeader>
 
             {/* Items   */}
             <div className={"-mx-6 mt-5 overflow-auto flex-1"}>
-                <div className={'mb-2'}>
+                {items.map(item => (
                     <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
-                </div>
+                        id={item.id}
+                        imageUrl={item.imageUrl}
+                        name={item.name}
+                        details={item.pizzaSize && getCartItemDetails(item.ingredients, item.pizzaType, item.pizzaSize)}
+                        price={item.price}
+                        quantity={item.quantity}/>
+                ))}
+                <div className={'mb-2'}>
 
-                <div className={'mb-2'}>
-                    <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
                 </div>
-
-                <div className={'mb-2'}>
-                    <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
-                </div>
-                <div className={'mb-2'}>
-                    <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
-                </div>
-                <div className={'mb-2'}>
-                    <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
-                </div>
-                <div className={'mb-2'}>
-                    <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
-                </div>
-                <div className={'mb-2'}>
-                    <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
-                </div>
-                <div className={'mb-2'}>
-                    <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
-                </div>
-                <div className={'mb-2'}>
-                    <CartDrawerItem
-                        id={'1'}
-                        imageUrl={'https://cdn.dodostatic.net/static/Img/Ingredients/99f5cb91225b4875bd06a26d2e842106.png'}
-                        name={'Пицца'}
-                        details={getCartItemDetails(
-                            [{name: 'Цыпленок'}, {name: 'Сыр'}] as Array<Ingredient>,
-                            1,
-                            30,
-                        )}
-                        price={300}
-                        quantity={3}/>
-                </div>
-
             </div>
             <SheetFooter className={"-mx-6 bg-white p-8"}>
                 <div className={'w-full'}>

@@ -1,5 +1,7 @@
 import { CartDTO } from '../services/dto/cart.dto';
 import { calcCartItemTotalPrice } from './calc-cart-item-total-price';
+import {PizzaSize, PizzaType} from "@/shared/constants/pizza";
+import {Ingredient} from "@prisma/client";
 
 export type CartStateItem = {
   id: string;
@@ -8,9 +10,9 @@ export type CartStateItem = {
   imageUrl: string;
   price: number;
   disabled?: boolean;
-  pizzaSize?: number | null;
-  pizzaType?: number | null;
-  ingredients: Array<{ name: string; price: number }>;
+  pizzaSize?: PizzaSize;
+  pizzaType?: PizzaType;
+  ingredients: Array<Ingredient>;
 };
 
 interface ReturnProps {
