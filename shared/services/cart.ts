@@ -16,8 +16,14 @@ export const getCart = async ():Promise<CartDTO> => {
     return result.json()
 };
 
-export const updateItemQuantity = async (itemId: number, quantity: number): Promise<CartDTO> => {
-  return (await axiosInstance.patch<CartDTO>('/cart/' + itemId, { quantity })).data;
+export const updateItemQuantity = async (itemId: string, quantity: number):Promise<CartDTO> => {
+    const req = fetch(`${process.env.NEXT_PUBLIC_API_URL}/${ApiRoutes.CART}/${itemId}`, {
+        method: 'PATCH',
+        body: JSON.stringify({ quantity })
+    })
+
+    const result = await req
+    return result.json()
 };
 
 export const removeCartItem = async (id: number): Promise<CartDTO> => {

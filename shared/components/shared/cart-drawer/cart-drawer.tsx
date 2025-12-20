@@ -9,6 +9,7 @@ import {CartDrawerItem} from "@/shared/components/shared/cart-drawer-item/cart-d
 import {getCartItemDetails} from "@/shared/lib";
 import {Ingredient} from "@prisma/client";
 import {useCartStore} from "@/shared/store";
+import {Variant} from "@/shared/components/shared/cart-item-details/types";
 
 
 interface CartDrawerProps {
@@ -18,12 +19,16 @@ interface CartDrawerProps {
 
 export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
 
-    const {fetchCartItems, totalAmount, items} = useCartStore()
+    const {fetchCartItems,updateItemQuantity, totalAmount, items} = useCartStore()
 
     useEffect(() => {
         fetchCartItems()
     }, [])
 
+    const onClickCountButton = (cartItemId:string, count:number,type:Variant) => {
+       const newValue = type === 'plus' ? count +1 : count -1
+        updateItemQuantity(cartItemId,newValue)
+    };
 
     return (<Sheet>
         <SheetTrigger asChild>
@@ -38,15 +43,18 @@ export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
 
             {/* Items   */}
             <div className={"-mx-6 mt-5 overflow-auto flex-1"}>
-                {items.map(item => (
-                    <CartDrawerItem
-                        id={item.id}
-                        imageUrl={item.imageUrl}
-                        name={item.name}
-                        details={item.pizzaSize && getCartItemDetails(item.ingredients, item.pizzaType, item.pizzaSize)}
-                        price={item.price}
-                        quantity={item.quantity}/>
-                ))}
+                {items.map(item => {
+                    return (
+                        <CartDrawerItem
+                            onClickCountButton={(type)=>onClickCountButton(item.id, item.quantity,type)}
+                            id={item.id}
+                            imageUrl={item.imageUrl}
+                            name={item.name}
+                            details={item.pizzaSize && getCartItemDetails(item.ingredients, item.pizzaType, item.pizzaSize)}
+                            price={item.price}
+                            quantity={item.quantity}/>
+                    );
+                })}
                 <div className={'mb-2'}>
 
                 </div>

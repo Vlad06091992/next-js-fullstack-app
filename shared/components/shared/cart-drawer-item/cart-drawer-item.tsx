@@ -22,6 +22,7 @@ export const CartDrawerItem: React.FC<Props<Variant>> = (
         quantity,
         className,
         details,
+        onClickCountButton
     }) => {
     return (
         <div className={cn('flex bg-white p-5 gap-6',className)}>
@@ -35,7 +36,7 @@ export const CartDrawerItem: React.FC<Props<Variant>> = (
 
                 <div className="flex items-center justify-between">
                     <CountButton
-                        // onClick={onClickCountButton}
+                        onClick={onClickCountButton}
                         value={quantity}/>
 
                     <div className="flex items-center gap-3">
