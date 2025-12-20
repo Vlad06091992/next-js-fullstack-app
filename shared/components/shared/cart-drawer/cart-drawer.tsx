@@ -19,7 +19,7 @@ interface CartDrawerProps {
 
 export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
 
-    const {fetchCartItems,updateItemQuantity, totalAmount, items} = useCartStore()
+    const {fetchCartItems,updateItemQuantity,removeCartItem, totalAmount, items} = useCartStore()
 
     useEffect(() => {
         fetchCartItems()
@@ -28,6 +28,10 @@ export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
     const onClickCountButton = (cartItemId:string, count:number,type:Variant) => {
        const newValue = type === 'plus' ? count +1 : count -1
         updateItemQuantity(cartItemId,newValue)
+    };
+
+    const onClickRemoveItem = (cartItemId:string) => {
+     removeCartItem(cartItemId)
     };
 
     return (<Sheet>
@@ -46,6 +50,7 @@ export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
                 {items.map(item => {
                     return (
                         <CartDrawerItem
+                            onClickRemove={()=>onClickRemoveItem(item.id)}
                             onClickCountButton={(type)=>onClickCountButton(item.id, item.quantity,type)}
                             id={item.id}
                             imageUrl={item.imageUrl}

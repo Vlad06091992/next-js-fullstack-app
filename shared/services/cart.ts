@@ -2,10 +2,7 @@ import { axiosInstance } from './instance';
 import { CartDTO, CreateCartItemValues } from './dto/cart.dto';
 import {Ingredient} from "@prisma/client";
 import {ApiRoutes} from "@/shared/services/constants";
-
-// export const getCart = async (): Promise<CartDTO> => {
-//   return (await axiosInstance.get<CartDTO>('/cart')).data;
-// };
+// функционал обращения к ендпоинтам бэка. Хочет рефакторинга, для исключения дублирования кода
 
 export const getCart = async ():Promise<CartDTO> => {
     const req = fetch(`${process.env.NEXT_PUBLIC_API_URL}/${ApiRoutes.CART}`, {
@@ -26,8 +23,14 @@ export const updateItemQuantity = async (itemId: string, quantity: number):Promi
     return result.json()
 };
 
-export const removeCartItem = async (id: number): Promise<CartDTO> => {
-  return (await axiosInstance.delete<CartDTO>('/cart/' + id)).data;
+
+export const removeCartItem = async (itemId: string):Promise<CartDTO> => {
+    const req = fetch(`${process.env.NEXT_PUBLIC_API_URL}/${ApiRoutes.CART}/${itemId}`, {
+        method: 'DELETE',
+    })
+
+    const result = await req
+    return result.json()
 };
 
 export const addCartItem = async (values: CreateCartItemValues): Promise<CartDTO> => {

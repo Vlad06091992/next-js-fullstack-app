@@ -22,7 +22,8 @@ export const CartDrawerItem: React.FC<Props<Variant>> = (
         quantity,
         className,
         details,
-        onClickCountButton
+        onClickCountButton,
+        onClickRemove,
     }) => {
     return (
         <div className={cn('flex bg-white p-5 gap-6',className)}>
@@ -42,7 +43,7 @@ export const CartDrawerItem: React.FC<Props<Variant>> = (
                     <div className="flex items-center gap-3">
                         <CartItem.Price value={price}/>
                         <Trash2Icon
-                            // onClick={onClickRemove}
+                            onClick={onClickRemove}
                             className="text-gray-400 cursor-pointer hover:text-gray-600"
                             size={16}
                         />

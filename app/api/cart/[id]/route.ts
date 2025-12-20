@@ -1,6 +1,7 @@
 import {NextRequest, NextResponse} from "next/server";
 import {prisma} from "@/prisma/client";
 import {updateCartTotalAmount} from "@/shared/lib/update-cart-total-amount";
+//реализация эндпоинтов бэкенда, к которым обращается фронтенд
 
 //этот ендпоинт принимает id товара в корзине, обновляет его количество, возвращает список товаров в корзине
 //корзина ищется по токену в куках
@@ -41,5 +42,39 @@ export async function PATCH(req: NextRequest, {params: {id}}: { params: { id: st
 
     } catch (e) {
         return NextResponse.json({message: `Failed to parse PATCH: ${e}`}, {status: 500})
+    }
+}
+
+
+export async function DELETE(req: NextRequest, {params: {id}}: { params: { id: string } }) {
+    try {
+        const token = req.cookies.get('cartToken')?.value;
+
+        if (!token) {
+            return NextResponse.json({error: "token not found"}, {status:400});
+        }
+
+
+        const cartItem = await prisma.cartItem.findFirst({
+            where: {
+                id
+            },
+        });
+
+        if (!cartItem) {
+            return NextResponse.json({message: `not found`}, {status: 404})
+        }
+
+
+
+        await prisma.cartItem.delete( {
+            where: {id},
+        })
+
+        const updatedCart = await updateCartTotalAmount(token)
+        return NextResponse.json(updatedCart)
+
+    } catch (e) {
+        return NextResponse.json({message: `Failed to parse DELETE: ${e}`}, {status: 500})
     }
 }
