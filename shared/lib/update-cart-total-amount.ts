@@ -3,6 +3,7 @@ import { calcCartItemTotalPrice } from './calc-cart-item-total-price';
 import {prisma} from "@/prisma/client";
 
 //хелпер для обновления стоимости товаров корзине
+//получает корзину пользователя и считает в ней сумму, товаров, ингредиентов
 export const updateCartTotalAmount = async (token: string) => {
   const userCart = await prisma.cart.findFirst({
     where: {
