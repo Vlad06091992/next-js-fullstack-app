@@ -3,6 +3,7 @@ import {Api} from "@/shared/services/api-client";
 import {getCartDetails} from "@/shared/lib";
 import {Ingredient} from "@prisma/client";
 import {PizzaSize, PizzaType} from "@/shared/constants/pizza";
+import {CreateCartItemValues} from "@/shared/services/dto/cart.dto";
 
 export type CartStateItem = {
     id: string;
@@ -31,7 +32,7 @@ export interface CartState {
     updateItemQuantity: (id: string, quantity: number) => Promise<void>;
 
     /* Запрос на добавление товара в корзину */
-    addCartItem: (values: any) => Promise<void>;
+    addCartItem: (values: CreateCartItemValues) => Promise<void>;
     // addCartItem: (values: CreateCartItemValues) => Promise<void>;
 
     /* Запрос на удаление товара из корзины */
@@ -91,16 +92,16 @@ export const useCartStore = create<CartState>((set, get) => ({
         }
     },
 
-    addCartItem: async (values: any) => {
-        // try {
-        //     set({ loading: true, error: false });
-        //     const data = await Api.cart.addCartItem(values);
-        //     set(getCartDetails(data));
-        // } catch (error) {
-        //     console.error(error);
-        //     set({ error: true });
-        // } finally {
-        //     set({ loading: false });
-        // }
+    addCartItem: async (values: CreateCartItemValues) => {
+        try {
+            set({ loading: true, error: false });
+            const data = await Api.cart.addCartItem(values);
+            set(getCartDetails(data));
+        } catch (error) {
+            console.error(error);
+            set({ error: true });
+        } finally {
+            set({ loading: false });
+        }
     },
 }));

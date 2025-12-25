@@ -11,6 +11,7 @@ export interface CartDTO extends Cart {
   items: CartItemDTO[];
 }
 
+//TODO унести куда-нибудь, например в какие нибудь контракты? используется на фронте и в эндпоинтах
 export interface CreateCartItemValues {
   productItemId: string;
   ingredients?: string[];

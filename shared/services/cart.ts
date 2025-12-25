@@ -4,8 +4,10 @@ import {Ingredient} from "@prisma/client";
 import {ApiRoutes} from "@/shared/services/constants";
 // функционал обращения к ендпоинтам бэка. Хочет рефакторинга, для исключения дублирования кода
 
+const url = `${process.env.NEXT_PUBLIC_API_URL}/${ApiRoutes.CART}`
+
 export const getCart = async ():Promise<CartDTO> => {
-    const req = fetch(`${process.env.NEXT_PUBLIC_API_URL}/${ApiRoutes.CART}`, {
+    const req = fetch(url, {
         method: 'GET',
     })
 
@@ -14,7 +16,7 @@ export const getCart = async ():Promise<CartDTO> => {
 };
 
 export const updateItemQuantity = async (itemId: string, quantity: number):Promise<CartDTO> => {
-    const req = fetch(`${process.env.NEXT_PUBLIC_API_URL}/${ApiRoutes.CART}/${itemId}`, {
+    const req = fetch(`${url}/${itemId}`, {
         method: 'PATCH',
         body: JSON.stringify({ quantity })
     })
@@ -25,7 +27,7 @@ export const updateItemQuantity = async (itemId: string, quantity: number):Promi
 
 
 export const removeCartItem = async (itemId: string):Promise<CartDTO> => {
-    const req = fetch(`${process.env.NEXT_PUBLIC_API_URL}/${ApiRoutes.CART}/${itemId}`, {
+    const req = fetch(`${url}/${itemId}`, {
         method: 'DELETE',
     })
 
@@ -33,8 +35,14 @@ export const removeCartItem = async (itemId: string):Promise<CartDTO> => {
     return result.json()
 };
 
-export const addCartItem = async (values: CreateCartItemValues): Promise<CartDTO> => {
-  return (await axiosInstance.post<CartDTO>('/cart', values)).data;
+export const addCartItem = async ({productItemId,ingredients}: CreateCartItemValues): Promise<CartDTO> => {
+    const req = fetch(`${url}`, {
+        method: 'POST',
+        body: JSON.stringify({ productItemId, ingredients }),
+    })
+
+    const result = await req
+    return result.json()
 };
 
 
