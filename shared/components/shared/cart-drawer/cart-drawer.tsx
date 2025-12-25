@@ -50,6 +50,8 @@ export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
                 {items.map(item => {
                     return (
                         <CartDrawerItem
+                            className={'mb-2'}
+                            key={item.id}
                             onClickRemove={()=>onClickRemoveItem(item.id)}
                             onClickCountButton={(type)=>onClickCountButton(item.id, item.quantity,type)}
                             id={item.id}
@@ -60,9 +62,7 @@ export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
                             quantity={item.quantity}/>
                     );
                 })}
-                <div className={'mb-2'}>
 
-                </div>
             </div>
             <SheetFooter className={"-mx-6 bg-white p-8"}>
                 <div className={'w-full'}>

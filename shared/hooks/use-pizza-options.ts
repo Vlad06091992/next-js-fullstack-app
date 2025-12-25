@@ -8,20 +8,22 @@ import {ProductItem} from "@prisma/client";
 export interface PizzaOptions {
     size: PizzaSize;
     type: PizzaType;
-    selectedIngredients:Set<string>;
+    selectedIngredients: Set<string>;
+    selectedPizzaId: null | string;
     setSize: (size: PizzaSize) => void;
     addIngredient: (ingredientId: string) => void;
     setType: (type: PizzaType) => void;
-    availablePizzaSizes:Variant<PizzaSize>[]
+    availablePizzaSizes: Variant<PizzaSize>[]
 }
 
-export const usePizzaOptions = (  items: ProductItem[]):PizzaOptions => {
+export const usePizzaOptions = (items: ProductItem[]): PizzaOptions => {
 
     const [size, setSize] = useState<PizzaSize>(20)
     const [type, setType] = useState<PizzaType>(1)
     const [selectedIngredients, {toggle: addIngredient}] = useSet(new Set<string>([]));
 
     const availablePizzaSizes = getAvailablePizzaSizes(items, type)
+    const selectedPizzaId = items.find(p => p.size == size && p.pizzaType == type)?.id || null;
 
     useEffect(() => {
         const isAvailableSize = availablePizzaSizes?.find(item => Number(item.value) === size && !item.disabled)
@@ -33,6 +35,6 @@ export const usePizzaOptions = (  items: ProductItem[]):PizzaOptions => {
 
     }, [type])
 
-    return {size,type, setSize,setType,selectedIngredients,addIngredient,availablePizzaSizes}
+    return {size,selectedPizzaId, type, setSize, setType, selectedIngredients, addIngredient, availablePizzaSizes}
 
 }
