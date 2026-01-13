@@ -4,6 +4,7 @@ import {ProductCard} from "@/shared/components/shared/product-card/product-card"
 import {ProductsGroupList} from "@/shared/components/shared/products-group-list/products-group-list";
 import {prisma} from "@/prisma/client";
 import {Category} from "@prisma/client";
+import {Suspense} from "react";
 
 export default async function Home() {
 
@@ -31,7 +32,9 @@ export default async function Home() {
                 <div className={'flex gap-[60px]'}>
                     {/*Фильтрация*/}
                     <div className={'w-[250px]'}>
-                        <Filters/>
+                        <Suspense fallback={'loading...'}>
+                            <Filters/>
+                        </Suspense>
                     </div>
                     <div className={'flex-1'}>
                         <div className={'flex flex-col gap-16'}>
