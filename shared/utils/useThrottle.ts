@@ -31,7 +31,7 @@ function throttle(cb: Function, delay: number) {
 
         if (!timer) {
             timer = setTimeout(() => {
-                cb.apply(this, lastArgs);
+                cb.apply(null, lastArgs);
                 timer = null;
             }, delay);
         }
