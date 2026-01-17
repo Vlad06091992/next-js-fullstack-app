@@ -2,15 +2,15 @@ import {FC} from "react";
 import Link from "next/link";
 import {Button, Title} from "@/shared/components";
 import {Plus} from "lucide-react";
+import {Ingredient} from "@prisma/client";
 
 interface ProductCardProps {
-    id: number;
+    id: string;
     name: string;
     price: number;
     imageUrl: string;
-    ingredients?: string[];
-    // ingredients: Ingredient[];
-    className?: string;
+    className?:string;
+    ingredients: Ingredient[]
 }
 
 export const ProductCard: FC<ProductCardProps> = ({className, name, imageUrl, price, id, ingredients}) => {
@@ -22,14 +22,9 @@ export const ProductCard: FC<ProductCardProps> = ({className, name, imageUrl, pr
 
             <Title text={name} size="sm" className="mb-1 mt-3 font-bold"/>
 
-            {/*<p className="text-sm text-gray-400">*/}
-            {/*    {ingredients.map((ingredient) => ingredient).join(', ')}*/}
-            {/*</p>*/}
-
             <p className="text-sm text-gray-400">
-                Цыпленок, моцарелла, сыры чеддер и пармезан, сырный соус, томаты, соус альфедо, чеснок
+                {ingredients?.map((ingredient) => ingredient.name).join(', ')}
             </p>
-
             <div className="flex justify-between items-center mt-4">
           <span className="text-[20px]">
             от <b>{price} ₽</b>

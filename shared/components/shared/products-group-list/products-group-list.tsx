@@ -6,11 +6,12 @@ import {Title} from "@/shared/components";
 import {ProductCard} from "@/shared/components/shared/product-card/product-card";
 import {useIntersection} from "react-use";
 import {useCategoryStore} from "@/shared/store";
+import {ProductWithRelations} from "@/prisma/types";
 
 interface ProductsGroupListProps {
     className?: string
     title: string
-    items: any[]
+    items: ProductWithRelations[]
     listClassName?: string
     categoryId: string
 }
@@ -31,15 +32,17 @@ export const ProductsGroupList: FC<ProductsGroupListProps> = ({className,listCla
     return (<div className={cn('', className)} id={title} ref={intersectionRef}>
         <Title text={title}  size="lg" className="font-extrabold mb-5" />
         <div className={cn('grid grid-cols-3 gap-[50px]', listClassName)}>
-            {items.map(product => (
-                <ProductCard
+            {items.map(product => {
+               return (
+                   <ProductCard
                     key={product.id}
                     id={product.id}
                     name={product.name}
-                    price={product.price}
+                    ingredients={product.ingredients || []}
+                    price={product.items[0].price}
                     imageUrl={product.imageUrl}
                 />
-            ))}
+            )})}
         </div>
     </div>);
 }
