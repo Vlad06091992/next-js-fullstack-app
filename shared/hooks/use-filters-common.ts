@@ -1,5 +1,5 @@
 import {Api} from '@/shared/services/api-client';
-import {useEffect, useState} from 'react';
+import {useEffect, useMemo, useState} from 'react';
 import {useSet} from "react-use";
 import {useSearchParams} from "next/navigation";
 
@@ -80,7 +80,7 @@ export const useFiltersCommon = (): ReturnProps => {
         })()
     }, []);
 
-    return {
+    return useMemo(() => ({
         toggleSetItem,
         togglePizzaTypes,
         toggleSizes,
@@ -92,5 +92,5 @@ export const useFiltersCommon = (): ReturnProps => {
         prices,
         setPrices,
         updatePrice
-    };
+    }), [prices,set,sizes,pizzaTypes])
 };
