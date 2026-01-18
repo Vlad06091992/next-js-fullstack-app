@@ -24,3 +24,4 @@ export {ChooseProductForm} from '@/shared/components/shared/choose-product-form/
 export {IngredientItem} from '@/shared/components/shared/ingredient-item/ingredient-item'
 export {CartButton} from '@/shared/components/shared/cart-button/cart-button'
 export {CartDrawer} from '@/shared/components/shared/cart-drawer/cart-drawer'
+export {ProductForm} from '@/shared/components/shared/product-form/product-form'

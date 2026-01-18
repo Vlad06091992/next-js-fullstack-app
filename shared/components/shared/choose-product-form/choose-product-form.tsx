@@ -7,7 +7,7 @@ import {Button, Title} from "@/shared/components";
 interface Props {
     imageUrl: string;
     name: string;
-    price : number;
+    price? : number;
     loading?: boolean;
     onSubmit: VoidFunction;
     className?: string;
