@@ -92,5 +92,5 @@ export const useFiltersCommon = (): ReturnProps => {
         prices,
         setPrices,
         updatePrice
-    }), [prices,set,sizes,pizzaTypes])
+    }), [prices,set,sizes,pizzaTypes,loading])
 };
