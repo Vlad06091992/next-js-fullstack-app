@@ -13,8 +13,7 @@ export type CartStateItem = {
     price: number;
     pizzaSize?: PizzaSize;
     ingredients: Array<Ingredient>;
-
-    // disabled?: boolean;
+    disabled?: boolean;
     pizzaType?: PizzaType;
 };
 
@@ -74,6 +73,7 @@ export const useCartStore = create<CartState>((set, get) => ({
 
     removeCartItem: async (id: string) => {
         try {
+            //пример работы со стейтом в зустанд с получением прошлого значения(по аналогии с useState в реакт)
             set((state) => ({
                 loading: true,
                 error: false,
