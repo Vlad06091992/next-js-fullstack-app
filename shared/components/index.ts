@@ -25,3 +25,8 @@ export {IngredientItem} from '@/shared/components/shared/ingredient-item/ingredi
 export {CartButton} from '@/shared/components/shared/cart-button/cart-button'
 export {CartDrawer} from '@/shared/components/shared/cart-drawer/cart-drawer'
 export {ProductForm} from '@/shared/components/shared/product-form/product-form'
+export {WhiteBlock} from '@/shared/components/shared/white-block/white-block'
+export {CheckoutItemDetails} from '@/shared/components/shared/checkout-item-details/checkout-item-details'
+export {CheckoutItem} from '@/shared/components/shared/checkout-item/checkout-item'
+export {CheckoutSidebar} from '@/shared/components/shared/checkout-sidebar/checkout-sidebar'
+export {CheckoutItemSkeleton} from '@/shared/components/shared/checkout-item-skeleton/checkout-item-skeleton'

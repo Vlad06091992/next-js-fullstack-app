@@ -9,11 +9,13 @@ import Link from "next/link";
 
 interface HeaderProps {
     className?: string
+    hasSearch?: boolean
+    hasCart?: boolean
 
 }
 
-export const Header = ({className}: HeaderProps) => {
-    return (<header className={cn('', className)}>
+export const Header = ({className,hasSearch = true, hasCart = true}: HeaderProps) => {
+    return (<header className={cn('border-b', className)}>
         <Container className='flex items-center justify-between py-4'>
             {/* левая часть   */}
             <Link href={'/'}>
@@ -26,15 +28,15 @@ export const Header = ({className}: HeaderProps) => {
                 </div>
             </Link>
 
-            <div className={'mx-10 flex-1'}>
+            { hasSearch && <div className={'mx-10 flex-1'}>
                 <SearchInput/>
-            </div>
+            </div> }
 
             <div className={"flex gap-4 items-center"}>
                 <Button className={"flex items-center gap-1"} variant={"outline"}>
                     <User size={16}/>
                     Войти</Button>
-                <CartButton/>
+                {hasCart && <CartButton/>}
             </div>
         </Container>
     </header>);
