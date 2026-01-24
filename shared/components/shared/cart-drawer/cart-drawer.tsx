@@ -1,16 +1,24 @@
 "use client"
 
-import {FC, ReactNode, useEffect} from "react";
-import {Sheet, SheetContent, SheetFooter, SheetHeader, SheetTitle,SheetClose, SheetTrigger,} from '@/shared/components/ui/sheet';
+import {FC, ReactNode, useState} from "react";
+import {
+    Sheet,
+    SheetClose,
+    SheetContent,
+    SheetFooter,
+    SheetHeader,
+    SheetTitle,
+    SheetTrigger,
+} from '@/shared/components/ui/sheet';
 import {Button, Title} from "@/shared/components";
 import Link from "next/link";
-import {ArrowRight, ArrowLeft} from "lucide-react";
+import {ArrowLeft, ArrowRight} from "lucide-react";
 import {CartDrawerItem} from "@/shared/components/shared/cart-drawer-item/cart-drawer-item";
 import {getCartItemDetails} from "@/shared/lib";
-import {useCartStore} from "@/shared/store";
 import {Variant} from "@/shared/components/shared/cart-item-details/types";
 import Image from "next/image";
 import EmptyBox from '@/public/assets/images/empty-box.png'
+import {useCart} from "@/shared/hooks";
 
 
 interface CartDrawerProps {
@@ -20,11 +28,9 @@ interface CartDrawerProps {
 
 export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
 
-    const {fetchCartItems, updateItemQuantity, removeCartItem, totalAmount, items} = useCartStore()
+    const {updateItemQuantity, removeCartItem, totalAmount, items} = useCart();
+    const [redirecting,setRedirecting] = useState(false);
 
-    useEffect(() => {
-        fetchCartItems()
-    }, [])
 
     const onClickCountButton = (cartItemId: string, count: number, type: Variant) => {
         const newValue = type === 'plus' ? count + 1 : count - 1
@@ -78,7 +84,7 @@ export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
                                 id={item.id}
                                 imageUrl={item.imageUrl}
                                 name={item.name}
-                                details={item.pizzaSize && getCartItemDetails(item.ingredients, item.pizzaType, item.pizzaSize)}
+                                details={getCartItemDetails(item.ingredients, item.pizzaType, item.pizzaSize)}
                                 price={item.price}
                                 quantity={item.quantity}/>
                         );
@@ -97,11 +103,11 @@ export const CartDrawer: FC<CartDrawerProps> = ({className, children}) => {
                             <div className="font-bold text-lg">{totalAmount} ₽</div>
                         </div>
 
-                        <Link href="/cart">
+                        <Link href="/checkout">
                             <Button
-                                // onClick={() => setRedirecting(true)}
-                                // loading={redirecting}
-                                type="submit"
+                                onClick={() => setRedirecting(true)}
+                                loading={redirecting}
+                                // type="submit"
                                 className="w-full h-12 text-base">
                                 Оформить заказ
                                 <ArrowRight className="w-5 ml-2"/>

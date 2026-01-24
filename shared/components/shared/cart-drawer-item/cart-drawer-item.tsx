@@ -11,7 +11,6 @@ interface Props<T> extends CartItemProps {
     onClickCountButton?: (type: T) => void;
     onClickRemove?: () => void;
     className?: string;
-    details?: string;
 }
 
 export const CartDrawerItem: React.FC<Props<Variant>> = (
