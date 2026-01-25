@@ -26,8 +26,6 @@ export const FormInput:FC<Props> = ({label,required,name,className, ...props}) =
     const value = watch(name);
     const errorText = errors[name]?.message as string;
 
-    debugger
-
     const onClickClear = () => {
         setValue(name, '', { shouldValidate: true });
     };

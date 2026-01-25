@@ -1,9 +1,10 @@
 "use client"
 
-import {WhiteBlock} from "@/shared/components";
+import {ErrorText, WhiteBlock} from "@/shared/components";
 import {FC} from "react";
 import {FormTextarea} from "@/shared/components/shared/form-components/form-textarea/form-textarea";
 import {AddressInput} from "@/shared/components/shared/address-input/address-input";
+import {Controller, useFormContext} from "react-hook-form";
 
 // interface Props {
 //     items: CartStateItem[];
@@ -13,14 +14,22 @@ import {AddressInput} from "@/shared/components/shared/address-input/address-inp
 //     className?: string;
 // }
 
-export const CheckoutAddress:FC<any> = () => {
+export const CheckoutAddress: FC<any> = () => {
+
+    const {control} = useFormContext()
+
     return (
         <WhiteBlock title="3. Адрес доставки">
             <div className="flex flex-col gap-5">
-                <AddressInput
-                    // name="address"
-                    // className="text-base" placeholder="Введите адрес"
-                />
+
+                <Controller control={control} render={({field, fieldState}) => (
+                    <>
+                        <AddressInput onChange={field.onChange}/>
+                        {fieldState.error?.message && <ErrorText text={fieldState?.error?.message}/>}
+                    </>
+                )}
+                            name={"address"}/>
+
                 <FormTextarea
                     name="comment"
                     className="text-base"
