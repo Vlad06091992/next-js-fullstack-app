@@ -1,7 +1,9 @@
-import {CheckoutItem, FormInput, Input, Textarea, WhiteBlock} from "@/shared/components";
-import {getCartItemDetails} from "@/shared/lib";
-import {CartStateItem} from "@/shared/store/cart";
+"use client"
+
+import {WhiteBlock} from "@/shared/components";
 import {FC} from "react";
+import {FormTextarea} from "@/shared/components/shared/form-components/form-textarea/form-textarea";
+import {AddressInput} from "@/shared/components/shared/address-input/address-input";
 
 // interface Props {
 //     items: CartStateItem[];
@@ -15,8 +17,11 @@ export const CheckoutAddress:FC<any> = () => {
     return (
         <WhiteBlock title="3. Адрес доставки">
             <div className="flex flex-col gap-5">
-                <Input name="address" className="text-base" placeholder="Введите адрес"/>
-                <Textarea
+                <AddressInput
+                    // name="address"
+                    // className="text-base" placeholder="Введите адрес"
+                />
+                <FormTextarea
                     name="comment"
                     className="text-base"
                     placeholder="Комментарий к заказу"
