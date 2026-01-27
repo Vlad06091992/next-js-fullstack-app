@@ -12,6 +12,7 @@ import {
 import {checkoutFormSchema, CheckoutFormValues} from "@/shared/constants";
 import {FormProvider, SubmitHandler, useForm} from "react-hook-form";
 import {zodResolver} from "@hookform/resolvers/zod";
+import {createOrder} from "@/app/api/actions";
 
 const VAT = 15
 const DELIVERY_PRICE = 260
@@ -40,9 +41,14 @@ export default function CheckoutPage() {
         removeCartItem(cartItemId)
     };
 
-    const onSubmit: SubmitHandler<CheckoutFormValues> = (data) => {
+    const onSubmit: SubmitHandler<CheckoutFormValues> = async (data) => {
         // form.handleSubmit(data)
         console.log(data);
+        // серверный экшн, вызов
+        const hz =  await  createOrder(data)
+
+        console.log(hz)
+        debugger
     }
 
     const vat_price = (totalAmount * VAT) / 100;
