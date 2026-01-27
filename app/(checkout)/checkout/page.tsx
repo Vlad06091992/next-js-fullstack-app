@@ -18,7 +18,7 @@ const DELIVERY_PRICE = 260
 
 export default function CheckoutPage() {
 
-    const {updateItemQuantity, removeCartItem, totalAmount, items} = useCart();
+    const {updateItemQuantity, removeCartItem, totalAmount, items, loading} = useCart();
     const form = useForm<CheckoutFormValues>({
         resolver: zodResolver(checkoutFormSchema),
         defaultValues: {
@@ -55,15 +55,18 @@ export default function CheckoutPage() {
                 <form onSubmit={form.handleSubmit(onSubmit)}>
                     <div className={'flex gap-10'}>
                         <div className={'flex flex-col gap-10 flex-1 mb-20'}>
-                            <CheckoutCart items={items} onClickCountButton={onClickCountButton}
-                                          onClickRemoveItem={onClickRemoveItem}/>
-                            <CheckoutPersonalData/>
-                            <CheckoutAddress/>
+                            <CheckoutCart
+                                loading={loading}
+                                items={items}
+                                onClickCountButton={onClickCountButton}
+                                onClickRemoveItem={onClickRemoveItem}/>
+                            <CheckoutPersonalData className={loading ? 'opacity-40 pointer-events-none' : ''}/>
+                            <CheckoutAddress className={loading ? 'opacity-40 pointer-events-none' : ''}/>
                         </div>
 
                         <div className={'w-[450px]'}>
                             <CheckoutSidebar totalAmount={totalAmount}
-                                // loading={loading || submitting}
+                                             loading={loading}
                             />
 
                         </div>

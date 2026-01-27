@@ -11,7 +11,7 @@ export const CheckoutPersonalData:FC<Props> = ({className}) => {
     const {} = useFormContext()
 
     return (
-        <WhiteBlock title="2. Персональная информация">
+        <WhiteBlock className={className} title="2. Персональная информация">
             <div className="grid grid-cols-2 gap-5">
                 <FormInput name="firstName" className="text-base" placeholder="Имя"/>
                 <FormInput name="lastName" className="text-base" placeholder="Фамилия"/>

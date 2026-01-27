@@ -6,20 +6,16 @@ import {FormTextarea} from "@/shared/components/shared/form-components/form-text
 import {AddressInput} from "@/shared/components/shared/address-input/address-input";
 import {Controller, useFormContext} from "react-hook-form";
 
-// interface Props {
-//     items: CartStateItem[];
-//     onClickCountButton: (id: string, quantity: number, type: 'plus' | 'minus') => void;
-//     onClickRemoveItem: (id: string) => void;
-//     loading?: boolean;
-//     className?: string;
-// }
+interface Props {
+    className?: string;
+}
 
-export const CheckoutAddress: FC<any> = () => {
+export const CheckoutAddress: FC<Props> = ({className}) => {
 
     const {control} = useFormContext()
 
     return (
-        <WhiteBlock title="3. Адрес доставки">
+        <WhiteBlock title="3. Адрес доставки" className={className}>
             <div className="flex flex-col gap-5">
 
                 <Controller control={control} render={({field, fieldState}) => (
