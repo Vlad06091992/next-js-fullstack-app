@@ -2,26 +2,120 @@
 import {CheckoutFormValues} from '@/shared/constants';
 import {OrderStatus} from "@prisma/client";
 import {prisma} from "@/prisma/client";
+import {cookies} from "next/headers";
+import {sendEmail} from "@/shared/lib";
+import {PayOrderTemplate} from "@/shared/components/shared/email-temapltes";
 
 // серверный экшн, объявление
 export async function createOrder(data: CheckoutFormValues) {
-    console.log("data server:",data);
 
-    await prisma.order.create({data:{
-            token: '',
-            fullName: data.firstName + ' ' + data.lastName,
-            email: data.email,
-            phone: data.phone,
-            address: data.address,
-            comment: data.comment,
-            totalAmount: 200,
-            status: OrderStatus.PENDING,
-            items: [],
+    try {
+        console.log("data server:", data);
 
-        }});
+        const cookieStore = cookies();
+        const cartToken = cookieStore.get('cartToken')?.value || '';
 
-    //не лучшая практика, для примера
-    return "fjhdskhgs";
+        if (!cartToken) {
+            throw new Error('Cart token not found');
+        }
 
+
+        await prisma.order.create({
+            data: {
+                token: '',
+                fullName: data.firstName + ' ' + data.lastName,
+                email: data.email,
+                phone: data.phone,
+                address: data.address,
+                comment: data.comment,
+                totalAmount: 200,
+                status: OrderStatus.PENDING,
+                items: [],
+
+            }
+        });
+
+
+        /* Находим корзину по токену */
+        const userCart = await prisma.cart.findFirst({
+            include: {
+                user: true,
+                items: {
+                    include: {
+                        ingredients: true,
+                        productItem: {
+                            include: {
+                                product: true,
+                            },
+                        },
+                    },
+                },
+            },
+            where: {
+                token: cartToken,
+            },
+        });
+
+
+        /* Если корзина не найдена возращаем ошибку */
+        if (!userCart) {
+            throw new Error('Cart not found');
+        }
+
+        /* Если корзина пустая возращаем ошибку */
+        if (userCart?.totalAmount === 0) {
+            throw new Error('Cart is empty');
+        }
+
+
+        /* Создаем заказ */
+        const order = await prisma.order.create({
+            data: {
+                token: cartToken,
+                fullName: data.firstName + ' ' + data.lastName,
+                email: data.email,
+                phone: data.phone,
+                address: data.address,
+                comment: data.comment,
+                totalAmount: userCart.totalAmount,
+                status: OrderStatus.PENDING,
+                items: JSON.stringify(userCart.items),
+            },
+        });
+
+        /* Очищаем корзину */
+        await prisma.cart.update({
+            where: {
+                id: userCart.id,
+            },
+            // where: {
+            //     token:cartToken ,
+            // },
+            data: {
+                totalAmount: 0,
+            },
+        });
+
+
+        await prisma.cartItem.deleteMany({
+            where: {
+                cartId: userCart.id,
+            },
+        });
+
+        let paymentUrl = "https://www.avito.ru/";
+
+        await sendEmail(data.email, 'Next Pizza / Оплатите заказ №' + order.id, PayOrderTemplate({
+            orderId: order.id,
+            totalAmount: order.totalAmount,
+            paymentUrl,
+        }));
+
+
+        return paymentUrl;
+    } catch (err) {
+        console.log('[CreateOrder] Server error', err);
+    }
 }
+
 
