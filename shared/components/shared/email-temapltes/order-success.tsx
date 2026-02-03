@@ -2,7 +2,7 @@ import { CartItemDTO } from '@/shared/services/dto/cart.dto';
 import React from 'react';
 
 interface Props {
-  orderId: number;
+  orderId: string;
   items: CartItemDTO[];
 }
 

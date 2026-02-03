@@ -3,7 +3,7 @@ import {CheckoutFormValues} from '@/shared/constants';
 import {OrderStatus} from "@prisma/client";
 import {prisma} from "@/prisma/client";
 import {cookies} from "next/headers";
-import {sendEmail} from "@/shared/lib";
+import {createPayment, sendEmail} from "@/shared/lib";
 import {PayOrderTemplate} from "@/shared/components/shared/email-temapltes";
 
 // серверный экшн, объявление
@@ -18,22 +18,6 @@ export async function createOrder(data: CheckoutFormValues) {
         if (!cartToken) {
             throw new Error('Cart token not found');
         }
-
-
-        await prisma.order.create({
-            data: {
-                token: '',
-                fullName: data.firstName + ' ' + data.lastName,
-                email: data.email,
-                phone: data.phone,
-                address: data.address,
-                comment: data.comment,
-                totalAmount: 200,
-                status: OrderStatus.PENDING,
-                items: [],
-
-            }
-        });
 
 
         /* Находим корзину по токену */
@@ -103,7 +87,29 @@ export async function createOrder(data: CheckoutFormValues) {
             },
         });
 
-        let paymentUrl = "https://www.avito.ru/";
+        // let paymentUrl = "https://www.avito.ru/";
+
+        const paymentData = await createPayment({
+            amount:order.totalAmount,
+            orderId:order.id,
+            description:'Оплата заказа' + order.id,
+        })
+
+        if(!paymentData) {
+            throw new Error('Payment data not found')
+        }
+
+        await prisma.order.update({
+            where: {
+                id: order.id,
+            },
+            data: {
+                paymentId: paymentData.id,
+            },
+        });
+
+
+        const paymentUrl = paymentData.confirmation.confirmation_url;
 
         await sendEmail(data.email, 'Next Pizza / Оплатите заказ №' + order.id, PayOrderTemplate({
             orderId: order.id,
