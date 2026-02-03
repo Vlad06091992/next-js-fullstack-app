@@ -4,7 +4,7 @@ import {Input, Title} from "@/shared/components";
 import {RangeSlider} from "@/shared/components/shared/range-slider/range-slider";
 import {CheckboxFiltersGroup} from "@/shared/components/shared/checkbox-filters-group/checkbox-filters-group";
 import {useFiltersCommon} from "@/shared/hooks";
-import {useEffect} from "react";
+import {useEffect, useRef} from "react";
 import qs from "qs";
 import {useRouter} from "next/navigation";
 
@@ -33,25 +33,29 @@ export const Filters = ({className}: FiltersProps) => {
     } = useFiltersCommon();
 
     const router = useRouter();
+    const isMounted = useRef(false);
     const defaultIngredients = ingredients.slice(0, 6);
 
 
     useEffect(() => {
 
+        if(isMounted.current) {
 
-        const data = {
-            ingredients: Array.from(selectedIds),
-            sizes: Array.from(selectedSizes),
-            pizzaTypes: Array.from(selectedPizzaTypes),
-            priceFrom,
-            priceTo
+            const data = {
+                ingredients: Array.from(selectedIds),
+                sizes: Array.from(selectedSizes),
+                pizzaTypes: Array.from(selectedPizzaTypes),
+                priceFrom,
+                priceTo
+            }
+
+            const query = qs.stringify(data, {arrayFormat: "comma", skipNulls: true});
+            router.push(`?${query}`, {
+                scroll: false,
+            });
         }
 
-        const query = qs.stringify(data, {arrayFormat: "comma", skipNulls:true});
-        router.push(`?${query}`, {
-            scroll: false,
-        });
-
+        isMounted.current = true;
     }, [ingredients, selectedIds, priceTo, selectedSizes, priceFrom, selectedPizzaTypes])
 
     return (<div>

@@ -1,10 +1,15 @@
+'use client'
+
 import {cn} from "@/shared/lib/utils";
 import {CartButton, Container, SearchInput} from "@/shared/components";
 import Image from "next/image";
 import Logo from '@/public/logo.png'
 import {Button} from "@/shared/components/ui";
-import {ArrowRight, Search, ShoppingCart, User} from "lucide-react";
+import {User} from "lucide-react";
 import Link from "next/link";
+import {useSearchParams} from "next/navigation";
+import {useEffect} from "react";
+import toast from "react-hot-toast";
 
 
 interface HeaderProps {
@@ -15,6 +20,32 @@ interface HeaderProps {
 }
 
 export const Header = ({className,hasSearch = true, hasCart = true}: HeaderProps) => {
+
+    const searchParams = useSearchParams();
+
+    useEffect(() => {
+        let toastMessage = '';
+
+        if (searchParams.has('paid')) {
+            toastMessage = 'Заказ успешно оплачен! Информация отправлена на почту.';
+        }
+
+        // if (searchParams.has('verified')) {
+        //     toastMessage = 'Почта успешно подтверждена!';
+        // }
+
+        if (toastMessage) {
+            setTimeout(() => {
+                // router.replace('/');
+                toast.success(toastMessage, {
+                    duration: 3000,
+                });
+            }, 1000);
+        }
+    }, []);
+
+
+
     return (<header className={cn('border-b', className)}>
         <Container className='flex items-center justify-between py-4'>
             {/* левая часть   */}
