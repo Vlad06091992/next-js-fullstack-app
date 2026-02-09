@@ -1,15 +1,16 @@
 'use client'
 
 import {cn} from "@/shared/lib/utils";
-import {CartButton, Container, SearchInput} from "@/shared/components";
+import {AuthModal, CartButton, Container, ProfileButton, SearchInput} from "@/shared/components";
 import Image from "next/image";
 import Logo from '@/public/logo.png'
 import {Button} from "@/shared/components/ui";
 import {User} from "lucide-react";
 import Link from "next/link";
 import {useSearchParams} from "next/navigation";
-import {useEffect} from "react";
+import {useEffect, useState} from "react";
 import toast from "react-hot-toast";
+import {useSession, signIn} from "next-auth/react";
 
 
 interface HeaderProps {
@@ -19,9 +20,10 @@ interface HeaderProps {
 
 }
 
-export const Header = ({className,hasSearch = true, hasCart = true}: HeaderProps) => {
-
+export const Header = ({className, hasSearch = true, hasCart = true}: HeaderProps) => {
+    const {status, data} = useSession()
     const searchParams = useSearchParams();
+    const [open, setOpen] = useState<boolean>(false);
 
     useEffect(() => {
         let toastMessage = '';
@@ -44,7 +46,7 @@ export const Header = ({className,hasSearch = true, hasCart = true}: HeaderProps
         }
     }, []);
 
-
+    const f = () => signIn('github', {callbackUrl: '/', redirect: true})
 
     return (<header className={cn('border-b', className)}>
         <Container className='flex items-center justify-between py-4'>
@@ -59,14 +61,14 @@ export const Header = ({className,hasSearch = true, hasCart = true}: HeaderProps
                 </div>
             </Link>
 
-            { hasSearch && <div className={'mx-10 flex-1'}>
+            {hasSearch && <div className={'mx-10 flex-1'}>
                 <SearchInput/>
-            </div> }
+            </div>}
 
             <div className={"flex gap-4 items-center"}>
-                <Button className={"flex items-center gap-1"} variant={"outline"}>
-                    <User size={16}/>
-                    Войти</Button>
+                <AuthModal open={open} onClose={()=>setOpen(false)}/>
+                <ProfileButton onClickSignIn={()=>{debugger; setOpen(true)}}/>
+                {/*<ProfileButton onClickSignIn={f}/>*/}
                 {hasCart && <CartButton/>}
             </div>
         </Container>

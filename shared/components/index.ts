@@ -32,7 +32,9 @@ export {CheckoutItemDetails} from './shared/checkout-item-details/checkout-item-
 export {CheckoutItem} from './shared/checkout-item/checkout-item'
 export {CheckoutSidebar} from './shared/checkout-sidebar/checkout-sidebar'
 export {CheckoutItemSkeleton} from './shared/checkout-item-skeleton/checkout-item-skeleton'
+export {ProfileButton} from './shared/proflie-button/proflie-button'
 
 export * from './shared/form-components'
 export * from './shared/checkout-pages-components'
 export * from './shared/modals'
+export * from './ui/dialog'
