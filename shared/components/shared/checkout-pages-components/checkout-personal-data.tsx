@@ -1,3 +1,5 @@
+"use client"
+
 import {FormInput, WhiteBlock} from "@/shared/components";
 import {FC} from "react";
 import {useFormContext} from "react-hook-form";

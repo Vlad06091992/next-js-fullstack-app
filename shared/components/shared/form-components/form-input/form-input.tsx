@@ -1,3 +1,5 @@
+"use client"
+
 import {FC, InputHTMLAttributes} from "react";
 import {cn} from "@/shared/lib/utils";
 import {RequiredSymbol} from "../../required-symbol/required-symbol";
