@@ -33,6 +33,8 @@ export {CheckoutItem} from './shared/checkout-item/checkout-item'
 export {CheckoutSidebar} from './shared/checkout-sidebar/checkout-sidebar'
 export {CheckoutItemSkeleton} from './shared/checkout-item-skeleton/checkout-item-skeleton'
 export {ProfileButton} from './shared/proflie-button/proflie-button'
+export {InfoBlock} from './shared/info-block/info-block'
+export {ProfileForm} from './shared/profile-form/profile-form'
 
 export * from './shared/form-components'
 export * from './shared/checkout-pages-components'
