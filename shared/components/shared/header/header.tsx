@@ -32,9 +32,9 @@ export const Header = ({className, hasSearch = true, hasCart = true}: HeaderProp
             toastMessage = 'Заказ успешно оплачен! Информация отправлена на почту.';
         }
 
-        // if (searchParams.has('verified')) {
-        //     toastMessage = 'Почта успешно подтверждена!';
-        // }
+        if (searchParams.has('verified')) {
+            toastMessage = 'Почта успешно подтверждена!';
+        }
 
         if (toastMessage) {
             setTimeout(() => {
